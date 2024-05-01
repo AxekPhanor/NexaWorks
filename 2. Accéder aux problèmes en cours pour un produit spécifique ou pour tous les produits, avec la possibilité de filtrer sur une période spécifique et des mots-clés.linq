@@ -20,10 +20,13 @@ var produit = Util.ReadLine("Nom produit (optionnel): ");
 var date1 = Util.ReadLine("Période date 1 - optionnel (aaaa-mm-jj): ");
 var date2 = Util.ReadLine("Période date 2 - optionnel (aaaa-mm-jj): ");
 
-DateTime[] periode = new DateTime[2] {
+DateTime[] periode = null;
+if (date1 != "" || date2 != ""){
+	periode = new DateTime[2] {
 	DateTime.Parse(date1),
 	DateTime.Parse(date2)
-};
+	};
+}
 
 // Requête
 var result = Tickets.Where(t => t.Probleme.Contains(motsClés))
