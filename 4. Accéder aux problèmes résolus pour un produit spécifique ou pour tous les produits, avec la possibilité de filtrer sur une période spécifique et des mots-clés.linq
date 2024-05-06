@@ -14,14 +14,17 @@
 </Query>
 
 // Paramètres
-var motsClés = Util.ReadLine("Mots clés (optionnel): ");
-var produit = Util.ReadLine("Nom produit (optionnel): ");
-
-var date1 = Util.ReadLine("Période date 1 - optionnel (aaaa-mm-jj): ");
-var date2 = Util.ReadLine("Période date 2 - optionnel (aaaa-mm-jj): ");
+var motsClés = Util.ReadLine("Renseigner un mots clés, si vous ne voulez pas renseigner de mot clé laisser le champs vide");
+var produit = Util.ReadLine("Renseigner un nom de produit, si vous ne voulez pas renseigner de nom de produit laisser le champs vide");
+var date1 = Util.ReadLine("Renseigner la date 1 de la période (aaaa-mm-jj), si vous ne voulez pas renseigner de période laisser le champs vide");
+var date2 = "";
+if(date1 != "")
+{
+	date2 = Util.ReadLine("Renseigner la date 2 de la période (aaaa-mm-jj)");
+}
 
 DateTime[] periode = null;
-if (date1 != "" || date2 != ""){
+if (date1 != "" && date2 != ""){
 	periode = new DateTime[2] {
 	DateTime.Parse(date1),
 	DateTime.Parse(date2)

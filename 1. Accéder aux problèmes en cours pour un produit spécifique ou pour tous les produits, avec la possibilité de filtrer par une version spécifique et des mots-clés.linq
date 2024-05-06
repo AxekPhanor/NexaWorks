@@ -14,9 +14,9 @@
 </Query>
 
 // Paramètres
-var motsClés = Util.ReadLine("Mots clés - optionnel: ");
-var produit = Util.ReadLine("Nom produit - optionnel: ");
-var version = Util.ReadLine("Numéro version - optionnel: ");
+var motsClés = Util.ReadLine("Renseigner un mots clés, si vous ne voulez pas renseigner de mot clé laisser le champs vide");
+var produit = Util.ReadLine("Renseigner un nom de produit, si vous ne voulez pas renseigner de nom de produit laisser le champs vide");
+var version = Util.ReadLine("Renseigner un numéro de version, si vous ne voulez pas renseigner de numéro de version laisser le champs vide");
 
 // Requête
 var result = Tickets.Where(t => t.Probleme.Contains(motsClés))
