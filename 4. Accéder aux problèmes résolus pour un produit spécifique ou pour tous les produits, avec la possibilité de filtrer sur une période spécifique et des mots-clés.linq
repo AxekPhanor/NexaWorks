@@ -32,77 +32,78 @@ if (date1 != "" && date2 != ""){
 }
 
 // Requête
-var result = Tickets.Where(t => t.Probleme.Contains(motsClés))
-.Join(Statuts, t => t.Statut.Id, s => s.Id, (ticket, statut) => new 
+var result = Problemes.Where(p => p.Description.Contains(motsClés))
+.Join(Statuts, p => p.Statut.Id, s => s.Id, (probleme, statut) => new 
 { 
-	Id = ticket.Id, 
-	ImplementationId = ticket.ImplementationId, 
-	Statut = statut.Etat,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution,
-	Implementation = ticket.Implementation
+	Id = probleme.Id, 
+	ImplementationId = probleme.ImplementationId, 
+	Statut = statut.Nom,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme.Resolution,
+	Implementation = probleme.Implementation
 })
-.Where(t => t.Statut == true)
-.Join(Implementations, t => t.Implementation.Id, i => i.Id, (ticket, implementation) => new 
+.Where(p => p.Statut == "Résolu")
+.Join(Implementations, p => p.Implementation.Id, i => i.Id, (probleme, implementation) => new 
 {
-	Id = ticket.Id,
+	Id = probleme.Id,
 	ProduitVersionId = implementation.ProduitVersionId,
 	SystemeExploitationId = implementation.SystemeExploitationId,
-	Statut = ticket.Statut,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution,
+	Statut = probleme.Statut,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme.Resolution,
 	ProduitVersion = implementation.ProduitVersion,
 	SystemeExploitation = implementation.SystemeExploitation
-}).Join(SystemeExploitations, t => t.SystemeExploitation.Id, se => se.Id, (ticket, systemeExploitation) => new 
+}).Join(SystemeExploitations, p => p.SystemeExploitation.Id, se => se.Id, (probleme, systemeExploitation) => new 
 {
-	Id = ticket.Id,
-	ProduitVersionId = ticket.ProduitVersionId,
+	Id = probleme.Id,
+	ProduitVersionId = probleme.ProduitVersionId,
 	SystemeExploitation = systemeExploitation.Nom,
-	Statut = ticket.Statut,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution,
-	ProduitVersion = ticket.ProduitVersion,
-}).Join(ProduitVersions, t => t.ProduitVersion.Id, pv => pv.Id, (ticket, produitVersion) => new
+	Statut = probleme.Statut,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme.Resolution,
+	ProduitVersion = probleme.ProduitVersion,
+}).Join(ProduitVersions, p => p.ProduitVersion.Id, pv => pv.Id, (probleme, produitVersion) => new
 {
-	Id = ticket.Id,
+	Id = probleme.Id,
 	ProduitId = produitVersion.ProduitId,
 	VersionId = produitVersion.VersionId,
-	SystemeExploitation = ticket.SystemeExploitation,
-	Statut = ticket.Statut,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution,
+	SystemeExploitation = probleme.SystemeExploitation,
+	Statut = probleme.Statut,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme.Resolution,
 	Produit = produitVersion.Produit,
 	Version = produitVersion.Version
-}).Join(Produits, t => t.Produit.Id, p => p.Id, (ticket, produit) => new
+}).Join(Produits, p => p.Produit.Id, p => p.Id, (probleme, produit) => new
 {
-	Id = ticket.Id,
+	Id = probleme.Id,
 	Produit = produit.Nom,
-	VersionId = ticket.VersionId,
-	SystemeExploitation = ticket.SystemeExploitation,
-	Statut = ticket.Statut,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution,
-	Version = ticket.Version,
-}).Where(t => string.IsNullOrEmpty(produit) || t.Produit == produit)
-.Join(Versions, t => t.Version.Id, v => v.Id, (ticket, version) => new
+	VersionId = probleme.VersionId,
+	SystemeExploitation = probleme.SystemeExploitation,
+	Statut = probleme.Statut,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme.Resolution,
+	Version = probleme.Version,
+}).Where(p => string.IsNullOrEmpty(produit) || p.Produit == produit)
+.Join(Versions, p => p.Version.Id, v => v.Id, (probleme, version) => new
 {
-	Id = ticket.Id,
-	Produit = ticket.Produit,
+	Id = probleme.Id,
+	Produit = probleme.Produit,
 	Version = version.Numero,
-	SystemeExploitation = ticket.SystemeExploitation,
-	Statut = ticket.Statut,
-	DateDeCreation = ticket.DateDeCreation,
-	Probleme = ticket.Probleme,
-	Resolution = ticket.Resolution
+	SystemeExploitation = probleme.SystemeExploitation,
+	Statut = probleme.Statut,
+	DateDeCreation = probleme.DateDeCreation,
+	Description = probleme.Description,
+	Resolution = probleme
+	.Resolution
 });
 
 if(periode != null){
-	result = result.Where(t => DateTime.Compare(t.DateDeCreation, periode[0]) >= 0 && DateTime.Compare(t.DateDeCreation, periode[1]) <= 0);
+	result = result.Where(p => DateTime.Compare(p.DateDeCreation, periode[0]) >= 0 && DateTime.Compare(p.DateDeCreation, periode[1]) <= 0);
 }
 
 result.Dump();
